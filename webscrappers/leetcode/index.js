@@ -45,7 +45,7 @@ export const getRecentSubs = (callback) => {
       let i = 0
       answeredQuestions.map((question) => {
         let { title } = question
-        title = title.toString().toLowerCase().replaceAll(" ", "-")
+        title = title.toString().toLowerCase().replace(/ /g, "-")
         let queryBody = JSON.stringify({
           query: `query questionData($titleSlug: String!) {
             question(titleSlug: $titleSlug) {

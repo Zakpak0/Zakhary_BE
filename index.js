@@ -1,6 +1,6 @@
 import http from "http";
 import url from "url";
-import {CTjson, CThtml, AC, RC, SendResponse} from "./lib/helpers.js"
+import { CTjson, CThtml, AC, RC, SendResponse } from "./lib/helpers.js"
 import { verifyId } from "./googleapis/gmail/service.js";
 import { listEvents } from "./googleapis/googlecalendar/index.js";
 import { mapGithubData } from "./webscrappers/github/service.js";
@@ -70,9 +70,18 @@ const init = async () => {
       }
     } catch (e) {
       console.log("Sever returned an error:", e)
+      response.write(`
+                        <html>
+                        <h1>Error processing Request ${e}</h1>
+                        <html>`);
+      response.end();
     }
   });
 
   server.listen(PORT, console.log(`API is now running on port ${PORT}`));
 };
-init();
+try {
+  init();
+} catch (e) {
+
+}

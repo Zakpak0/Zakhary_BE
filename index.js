@@ -11,6 +11,91 @@ const init = async () => {
   const PORT = 3200;
   server.on("request", (request, response) => {
     const parsedUrl = url.parse(request.url, true);
+
+    /**
+    response.setHeader("Content-Type", "application/json")
+    @abstract CTjson
+    */
+    const CTjson = response.setHeader("Content-Type", "application/json");
+
+
+    /** 
+    response.setHeader("Content-Type", "text/html", "charset=utf-8") 
+    @abstract CThtml 
+    */
+    const CThtml = response.setHeader("Content-Type", "text/html", "charset=utf-8")
+
+
+    /** 
+    const AC = response.setHeader("Access-Control-Allow-Origin", "*")
+    @abstract AC 
+    */
+    const AC = response.setHeader("Access-Control-Allow-Origin", "*")
+
+
+
+    /**
+    @function 
+    const RC = (code) => response.statusCode = code;
+    @description
+    Sets a status code response
+    @param code
+    The status code to return
+    */
+    const RC = (code) => response.statusCode = code;
+
+
+    /**
+    @function
+    const SendResponse = (Function, DataPoints = [], response) => {
+      let responseData = [];
+      let timeout = setTimeout(() => {
+        response.write(JSON.stringify(responseData));
+        response.end();
+      }, 10000);
+      let Args = DataPoints.map((point) => {
+        return (pointVar) => {
+          let Object = `${point}: ${pointVar}`
+          responseData.push({ Object });
+          if (responseData.length == DataPoints.length) {
+            clearTimeout(timeout);
+            response.write(JSON.stringify(responseData));
+            response.end();
+          }
+        }
+      })
+      Function(...Args)
+    }
+    @description
+    Calls a backend service that retrieves data from a 3rd party
+    @param Function
+    The backend service function to call
+    @param DataPoints
+    An array of Data Point arguments accepted by the back end services
+    */
+    const SendResponse = (Function, DataPoints = []) => {
+      let responseData = [];
+      let timeout = setTimeout(() => {
+        response.write(JSON.stringify(responseData));
+        response.end();
+      }, 10000);
+      let Args = DataPoints.map((point) => {
+        return (pointVar) => {
+          let data = Object.create({})
+          data[`${point}`] = pointVar
+          responseData.push(data);
+          if (responseData.length == DataPoints.length) {
+            clearTimeout(timeout);
+            response.write(JSON.stringify(responseData));
+            response.end();
+          }
+        }
+      })
+      Function(...Args)
+    }
+
+
+
     console.log(request.method);
     console.log(parsedUrl.pathname);
     try {
@@ -21,8 +106,8 @@ const init = async () => {
         const { id, event } = parsedUrl.query;
         verifyId(id, (callback) => {
           if (callback) {
-            response.setHeader("Content-Type", "text/html", "charset=utf-8");
-            response.statusCode = 201;
+            CThtml
+            RC(200)
             response.write(`
                         <html>
                         <h1>Thanks for Confirming your Appointment</h1>
@@ -35,111 +120,28 @@ const init = async () => {
         });
       }
       if (request.method === "GET" && parsedUrl.pathname === "/listevents") {
-        response.setHeader("Content-Type", "application/json");
-        response.setHeader("Access-Control-Allow-Origin", "*");
-        response.statusCode = 201;
-        listEvents((callback) => {
-          response.write(callback);
-          response.end();
-        });
+        CTjson
+        AC
+        RC(201)
+        SendResponse(listEvents, ["events"])
       }
       if (request.method === "GET" && parsedUrl.pathname === "/github") {
-        response.setHeader("Content-Type", "application/json");
-        response.setHeader("Access-Control-Allow-Origin", "*");
-        response.statusCode = 201;
-        let responseData = [];
-        let timeout = setTimeout(() => {
-          response.write(JSON.stringify(responseData));
-          response.end();
-        }, 10000);
-        mapGithubData(
-          (repo) => {
-            responseData.push({ Repo_Data: repo });
-            if (responseData.length == 3) {
-              clearTimeout(timeout);
-              response.write(JSON.stringify(responseData));
-              response.end();
-            }
-          },
-          (repoCount) => {
-            responseData.push({ Repo_Count_Data: repoCount });
-            if (responseData.length == 3) {
-              clearTimeout(timeout);
-              response.write(JSON.stringify(responseData));
-              response.end();
-            }
-          },
-          (contributions) => {
-            responseData.push({ Contributions_Data: contributions });
-            if (responseData.length == 3) {
-              clearTimeout(timeout);
-              response.write(JSON.stringify(responseData));
-              response.end();
-            }
-          }
-        );
+        CTjson
+        AC
+        RC(201)
+        SendResponse(mapGithubData, ["Repo_Data", "Repo_Count_Data", "Contributions_Data"])
       }
       if (request.method === "GET" && parsedUrl.pathname === "/pluralsight") {
-        response.setHeader("Content-Type", "application/json");
-        response.setHeader("Access-Control-Allow-Origin", "*");
-        response.statusCode = 201;
-        let responseData = [];
-        let timeout = setTimeout(() => {
-          response.write(JSON.stringify(responseData));
-          response.end();
-        }, 10000);
-        mapPluralsightData(
-          (courseData) => {
-            responseData.push({ Course_Data: courseData });
-            if (responseData.length == 4) {
-              clearTimeout(timeout);
-              response.write(JSON.stringify(responseData));
-              response.end();
-            }
-          },
-          (learningData) => {
-            responseData.push({ Learning_Data: learningData });
-            if (responseData.length == 4) {
-              clearTimeout(timeout);
-              response.write(JSON.stringify(responseData));
-              response.end();
-            }
-          },
-          (badgeData) => {
-            responseData.push({ Badge_Data: badgeData });
-            if (responseData.length == 4) {
-              clearTimeout(timeout);
-              response.write(JSON.stringify(responseData));
-              response.end();
-            }
-          },
-          (activityData) => {
-            responseData.push({ Activity_Data: activityData });
-            if (responseData.length == 4) {
-              clearTimeout(timeout);
-              response.write(JSON.stringify(responseData));
-              response.end();
-            }
-          }
-        );
+        CTjson
+        AC
+        RC(201)
+        SendResponse(mapPluralsightData, ["courseData", "learningData", "badgeData", "activityData"])
       }
       if (request.method === "GET" && parsedUrl.pathname === "/leetcode") {
-        response.setHeader("Content-Type", "application/json");
-        response.setHeader("Access-Control-Allow-Origin", "*");
-        response.statusCode = 201;
-        let responseData = [];
-        let timeout = setTimeout(() => {
-          response.write(JSON.stringify(responseData));
-          response.end();
-        }, 10000);
-        mapLeetcodeData((recentSubs) => {
-          responseData.push({ Recent_Subs: recentSubs });
-          if (responseData.length == 1) {
-            clearTimeout(timeout);
-            response.write(JSON.stringify(responseData));
-            response.end();
-          }
-        });
+        CTjson
+        AC
+        RC(201)
+        SendResponse(mapLeetcodeData, ["Recent_Subs"])
       }
       if (
         request.method === "POST" &&

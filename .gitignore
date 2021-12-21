@@ -35,3 +35,5 @@ yarn-error.log*
 frontend/.vercel
 backend/.env.json
 backend/.env.json
+
+.vercel

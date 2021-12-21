@@ -13,6 +13,7 @@ const init = async () => {
   server.on("request", (request, response) => {
     const parsedUrl = url.parse(request.url, true);
     console.log(request.method);
+
     console.log(parsedUrl.pathname);
     try {
       if (

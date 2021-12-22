@@ -4,7 +4,8 @@
     {
       "src": "./index.js",
       "use": "@now/node-server"
-    }
+    },
+    { "src": "./templates/**", "use": "@now/static" }
   ],
   "routes": [
     { "handle": "filesystem" },

@@ -166,7 +166,7 @@ const init = async () => {
         });
       }
       else {
-        HTMLResponse("public/homepage.html")
+        HTMLResponse("/homepage.html")
       }
     } catch (e) {
       console.log("Sever returned an error:", e)

@@ -92,12 +92,6 @@ const init = async () => {
       })
       Function(...Args)
     }
-    const HTMLResponse = (file) => {
-      response.writeHead(301, {
-        Location: `${file}`
-      })
-      response.end()
-    }
     const parsedUrl = url.parse(request.url, true);
     console.log(request.method);
     console.log(parsedUrl.pathname);
@@ -151,9 +145,6 @@ const init = async () => {
         useGoogleCalendarService(body, (callback) => {
           console.log(callback);
         });
-      }
-      else {
-        HTMLResponse("templates/homepage.html")
       }
     } catch (e) {
       console.log("Sever returned an error:", e)

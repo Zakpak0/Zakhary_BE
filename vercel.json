@@ -4,16 +4,6 @@
     {
       "src": "../ZAKHARY_BE",
       "use": "@vercel/node"
-    },
-    {
-      "src": "./templates/**",
-      "use": "@vercel/static"
-    }
-  ],
-  "routes": [
-    {
-      "src": "/(.*)",
-      "dest": "/"
     }
   ]
 }

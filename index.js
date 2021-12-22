@@ -94,7 +94,7 @@ const init = async () => {
       Function(...Args)
     }
     const HTMLResponse = (file) => {
-      const __filename = fileURLToPath(import.meta.url);
+      const __filename = fileURLToPath("www.zakoliver.com");
       const __dirname = dirname(__filename);
       console.log(__dirname)
       console.log(path.join(__dirname, file))
@@ -170,7 +170,10 @@ const init = async () => {
           console.log(callback);
         });
       }
-      else {
+      else if (
+        request.method === "GET" &&
+        parsedUrl.pathname === "/"
+      ) {
         HTMLResponse("./templates/homepage.html")
       }
     } catch (e) {

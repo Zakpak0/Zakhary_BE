@@ -1,9 +1,6 @@
 import http from "http";
-import url, { fileURLToPath } from "url";
-import path from "path"
-// import { Homepage } from "./templates/homepage.js";
+import url from "url";
 import fs from "fs"
-import homepage from "./templates/homepage.js";
 import { verifyId } from "./googleapis/gmail/service.js";
 import { listEvents } from "./googleapis/googlecalendar/index.js";
 import { mapGithubData } from "./webscrappers/github/service.js";
@@ -96,9 +93,7 @@ const init = async () => {
       Function(...Args)
     }
     const HTMLResponse = (file) => {
-      const dir = path.resolve("./", file)
-      console.log(dir)
-      fs.readFile(dir, (error, page) => {
+      fs.readFile(file, (error, page) => {
         if (error) {
           RC(404)
           CThtml
@@ -171,7 +166,7 @@ const init = async () => {
         });
       }
       else {
-        HTMLResponse("templates/homepage.html")
+        HTMLResponse("/var/task/templates/homepage.html")
       }
     } catch (e) {
       console.log("Sever returned an error:", e)

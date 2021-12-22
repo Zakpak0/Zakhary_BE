@@ -1,7 +1,7 @@
 import https from "https";
 import fs from "fs";
 const getAuth = (authorizedCall) => {
-  if (process.env == "development") {
+  if (process.env.NODE_ENV == "development") {
     fs.readFile(".env.json", (err, data) => {
       authorizedCall(JSON.parse(data));
     });

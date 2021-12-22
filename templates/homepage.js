@@ -1,6 +1,5 @@
-export const Homepage = () => {
-    return (
-    <html lang="en">
+export const Homepage =
+    `<html lang="en">
         <head>
             <meta charset="UTF-8" />
             <meta http-equiv="X-UA-Compatible" content="IE=edge" />
@@ -11,6 +10,4 @@ export const Homepage = () => {
             <h1>Zakhary Oliver's Backend API</h1>
         </body>
         <script src={ } />
-        </html>
-    )
-}
+    </html>`

@@ -5,8 +5,8 @@
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "build": "webpack --mode production && node dist/index.js",
-    "start": "nodemon dist/main.js",
+    "build": "webpack --mode production",
+    "start": "nodemon dist/index.js",
     "dev": "webpack --mode development && nodemon dist/index.js"
   },
   "author": "Zakhary Oliver",

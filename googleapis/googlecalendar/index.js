@@ -10,16 +10,20 @@ const SCOPES = [
 // The file token.json stores the user's access and refresh tokens, and is
 // created automatically when the authorization flow completes for the first
 // time.
-const TOKEN_PATH = "token.json";
+const TOKEN_PATH = ".env.json";
 
 // Load client secrets from a local file.
 const getGoogleServiceWithAuth = (service) => {
-  fs.readFile("zakharyoliver.json", (err, content) => {
-    if (err) return console.log("Error loading client secret file:", err);
-    // Authorize a client with credentials, then call the Google Calendar API.
-    authorize(JSON.parse(content), service);
-  });
-
+  if (process.env.NODE_ENV == "development") {
+    fs.readFile(".env.json", (err, content) => {
+      if (err) return console.log("Error loading client secret file:", err);
+      // Authorize a client with credentials, then call the Google Calendar API.
+      console.log(content)
+      authorize(JSON.parse(content), service);
+    });
+  } else {
+    authorize(process.env.WEB_PATH, service)
+  }
   /**
    * Create an OAuth2 client with the given credentials, and then execute the
    * given callback function.
@@ -27,20 +31,23 @@ const getGoogleServiceWithAuth = (service) => {
    * @param {function} callback The callback to call with the authorized client.
    */
   function authorize(credentials, callback) {
-    console.log(credentials);
-    const { client_secret, client_id, redirect_uris } = credentials.web;
+    const { client_secret, client_id, redirect_uris } = credentials.WEB_PATH;
     const oAuth2Client = new google.auth.OAuth2(
       client_id,
       client_secret,
       redirect_uris[0]
     );
-
-    // Check if we have previously stored a token.
-    fs.readFile(TOKEN_PATH, (err, token) => {
-      if (err) return getAccessToken(oAuth2Client, callback);
-      oAuth2Client.setCredentials(JSON.parse(token));
-      callback(oAuth2Client);
-    });
+    if (process.env.NODE_ENV == "development") {
+      // Check if we have previously stored a token.
+      fs.readFile(TOKEN_PATH, (err, token) => {
+        if (err) return getAccessToken(oAuth2Client, callback);
+        oAuth2Client.setCredentials(JSON.parse(token).TOKEN_PATH);
+        callback(oAuth2Client);
+      });
+    } else {
+      oAuth2Client.setCredentials(process.env.TOKEN_PATH);
+      callback(oAuth2Client)
+    }
   }
 
   /**
@@ -153,10 +160,10 @@ export const listEvents = (callbackData) => {
                     year: new Date(appointment.start.dateTime).getFullYear(),
                     date: `${new Date(appointment.start.dateTime).getMonth() +
                       1}/${new Date(
-                      appointment.start.dateTime
-                    ).getDate()}/${new Date(
-                      appointment.start.dateTime
-                    ).getFullYear()}`,
+                        appointment.start.dateTime
+                      ).getDate()}/${new Date(
+                        appointment.start.dateTime
+                      ).getFullYear()}`,
                   },
                   time: new Date(appointment.start.dateTime)
                     .toLocaleTimeString()
@@ -169,10 +176,10 @@ export const listEvents = (callbackData) => {
                     year: new Date(appointment.end.dateTime).getFullYear(),
                     date: `${new Date(appointment.end.dateTime).getMonth() +
                       1}/${new Date(
-                      appointment.end.dateTime
-                    ).getDate()}/${new Date(
-                      appointment.end.dateTime
-                    ).getFullYear()}`,
+                        appointment.end.dateTime
+                      ).getDate()}/${new Date(
+                        appointment.end.dateTime
+                      ).getFullYear()}`,
                   },
                   time: new Date(appointment.end.dateTime)
                     .toLocaleTimeString()

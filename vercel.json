@@ -3,16 +3,13 @@
   "builds": [
     {
       "src": "./index.js",
-      "use": "@now/node-server"
-    },
-    { "src": "./templates/homepage.html", "use": "@now/static" }
+      "use": "@vercel/node"
+    }
   ],
   "routes": [
-    { "handle": "filesystem" },
     {
-      "src": "/.*",
-      "dest": "index.js"
-    },
-    { "src": "/", "dest": "/templates/homepage.html" }
+      "src": "/(.*)",
+      "dest": "/"
+    }
   ]
 }

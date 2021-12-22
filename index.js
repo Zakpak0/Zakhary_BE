@@ -166,7 +166,7 @@ const init = async () => {
         });
       }
       else {
-        HTMLResponse("/var/task/templates/homepage.html")
+        HTMLResponse("./templates/homepage.html")
       }
     } catch (e) {
       console.log("Sever returned an error:", e)

@@ -1,3 +1,18 @@
 {
-  "redirects": [{ "source": "/", "destination": "templates/homepage.html" }]
+  "version": 2,
+  "builds": [
+    {
+      "src": "./index.js",
+      "use": "@now/node-server"
+    },
+    { "src": "./templates/homepage.html", "use": "@now/static" }
+  ],
+  "routes": [
+    { "handle": "filesystem" },
+    {
+      "src": "/.*",
+      "dest": "index.js"
+    },
+    { "src": "/", "dest": "/templates/homepage.html" }
+  ]
 }

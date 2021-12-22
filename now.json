@@ -5,13 +5,14 @@
       "src": "./index.js",
       "use": "@now/node-server"
     },
-    { "src": "./templates/**", "use": "@now/static" }
+    { "src": "./templates/homepage.html", "use": "@now/static" }
   ],
   "routes": [
     { "handle": "filesystem" },
     {
       "src": "/.*",
       "dest": "index.js"
-    }
+    },
+    { "src": "/", "dest": "/templates/homepage.html" }
   ]
 }

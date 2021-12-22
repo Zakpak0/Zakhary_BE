@@ -3,10 +3,10 @@ const path = require('path');
 module.exports = {
     target: 'node',
     entry: "./src/index.js",
-    output: { // NEW
+    output: {
         path: path.join(__dirname, 'dist'),
-        filename: "[name].js"
-    }, // NEW Ends
+        filename: "index.js"
+    },
     module: {
         rules: [
             {

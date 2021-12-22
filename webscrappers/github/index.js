@@ -1,9 +1,13 @@
 import https from "https";
 import fs from "fs";
 const getAuth = (authorizedCall) => {
-  fs.readFile(".env.json", (err, data) => {
-    authorizedCall(JSON.parse(data));
-  });
+  if (process.env == "development") {
+    fs.readFile(".env.json", (err, data) => {
+      authorizedCall(JSON.parse(data));
+    });
+  } else {
+    authorizedCall({ GITHUB_TOKEN: process.env.GITHUB_TOKEN })
+  }
 };
 const getGithubInfo = {
   getRepos: (callback) => {

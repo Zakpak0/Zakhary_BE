@@ -95,9 +95,7 @@ const init = async () => {
       Function(...Args)
     }
     const HTMLResponse = (file) => {
-      const dir = path.resolve("./", file)
-      console.log(dir)
-      fs.readFile(dir, (error, page) => {
+      fs.readFile(file, (error, page) => {
         if (error) {
           RC(404)
           CThtml

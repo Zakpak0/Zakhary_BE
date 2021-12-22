@@ -11,8 +11,10 @@
     }
   ],
   "routes": [
+    { "handle": "filesystem" },
     {
-      "src": "/",
+      "src": "/(.*)",
+      "status": 200,
       "dest": "./templates/homepage.html"
     }
   ]

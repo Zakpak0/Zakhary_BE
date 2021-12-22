@@ -1,6 +1,7 @@
 import http from "http";
-import url from "url";
+import url, { fileURLToPath } from "url";
 import fs from "fs"
+import path, { dirname } from "path"
 import { verifyId } from "./googleapis/gmail/service.js";
 import { listEvents } from "./googleapis/googlecalendar/index.js";
 import { mapGithubData } from "./webscrappers/github/service.js";
@@ -92,6 +93,29 @@ const init = async () => {
       })
       Function(...Args)
     }
+    const HTMLResponse = (file) => {
+      const __filename = fileURLToPath(import.meta.url);
+      const __dirname = dirname(__filename);
+      console.log(__dirname)
+      console.log(path.join(__dirname, file))
+      fs.readFile(path.join(__dirname, file), (error, page) => {
+        if (error) {
+          RC(404)
+          CThtml
+          response.write(`
+                        <html>
+                        <h1>Sorry this page doesn't exist</h1>
+                        <html>`
+          )
+          response.end();
+        } else {
+          RC(200)
+          CThtml
+          response.write(page)
+          response.end();
+        }
+      })
+    }
     const parsedUrl = url.parse(request.url, true);
     console.log(request.method);
     console.log(parsedUrl.pathname);
@@ -145,6 +169,9 @@ const init = async () => {
         useGoogleCalendarService(body, (callback) => {
           console.log(callback);
         });
+      }
+      else {
+        HTMLResponse("./templates/homepage.html")
       }
     } catch (e) {
       console.log("Sever returned an error:", e)

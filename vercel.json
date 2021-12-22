@@ -3,10 +3,11 @@
   "builds": [
     {
       "src": "./index.js",
+      "static": "./templates/**",
       "use": "@vercel/node"
     },
     {
-      "src": "./homepage.html",
+      "src": "./templates/**",
       "use": "@vercel/static"
     }
   ],

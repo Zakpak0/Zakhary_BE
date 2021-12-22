@@ -6,14 +6,14 @@
       "use": "@vercel/node"
     },
     {
-      "src": "./templates/homepage.html",
+      "src": "./templates/**",
       "use": "@vercel/static"
     }
   ],
   "routes": [
     {
-      "src": "./templates/homepage.html",
-      "dest": "/"
+      "src": "/",
+      "dest": "./templates/homepage.html"
     }
   ]
 }

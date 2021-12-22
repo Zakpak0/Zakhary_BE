@@ -1,7 +1,7 @@
 import http from "http";
-import url from "url";
+import url, { fileURLToPath } from "url";
 import fs from "fs"
-import path from "path"
+import path, { dirname } from "path"
 import { verifyId } from "./googleapis/gmail/service.js";
 import { listEvents } from "./googleapis/googlecalendar/index.js";
 import { mapGithubData } from "./webscrappers/github/service.js";
@@ -94,7 +94,9 @@ const init = async () => {
       Function(...Args)
     }
     const HTMLResponse = (file) => {
-      fs.readFile(path.join('./', file), (error, page) => {
+      const __filename = fileURLToPath(import.meta.url);
+      const __dirname = dirname(__filename);
+      fs.readFile(path.join(__dirname, file), (error, page) => {
         if (error) {
           RC(404)
           CThtml

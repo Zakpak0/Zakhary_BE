@@ -1,15 +1,19 @@
-/// <reference path="./templates/homepage.html" />
+import React from "react";
+import ReactDOM from "react-dom";
+import Homepage from "./templates/homepage.js";
+import ReactDOMServer from "react-dom/server.js"
 import http from "http";
 import url, { fileURLToPath } from "url";
 import fs from "fs"
+import path from "path"
 import { verifyId } from "./googleapis/gmail/service.js";
 import { listEvents } from "./googleapis/googlecalendar/index.js";
 import { mapGithubData } from "./webscrappers/github/service.js";
 import { mapLeetcodeData } from "./webscrappers/leetcode/service.js";
 import { mapPluralsightData } from "./webscrappers/pluralsight/service.js";
 import { useGoogleCalendarService } from "./googleapis/googlecalendar/service.js";
-const init = async () => {
 
+const init = async () => {
   const server = http.createServer();
   const PORT = 3200;
   server.on("request", (request, response) => {
@@ -94,24 +98,9 @@ const init = async () => {
       Function(...Args)
     }
     const HTMLResponse = (file) => {
-      console.log(file)
-      fs.readFile(file, (error, page) => {
-        if (error) {
-          RC(404)
-          CThtml
-          response.write(`
-                        <html>
-                        <h1>Sorry this page doesn't exist</h1>
-                        <html>`
-          )
-          response.end();
-        } else {
-          RC(200)
-          CThtml
-          response.write(page)
-          response.end();
-        }
-      })
+      let payload = ReactDOMServer.renderToString(file)
+      response.write(payload)
+      response.end()
     }
     const parsedUrl = url.parse(request.url, true);
     console.log(request.method);
@@ -168,7 +157,7 @@ const init = async () => {
         });
       }
       else {
-        HTMLResponse("./templates/homepage.html")
+        HTMLResponse(<Homepage />)
       }
     } catch (e) {
       console.log("Sever returned an error:", e)

@@ -94,11 +94,7 @@ const init = async () => {
       Function(...Args)
     }
     const HTMLResponse = (file) => {
-      const __filename = new URL(import.meta.url).pathname;
-      const __dirname = dirname(__filename);
-      console.log(__dirname)
-      console.log(path.join(__dirname, file))
-      fs.readFile(path.join(__dirname, file).replace("\\", ""), (error, page) => {
+      fs.readFile(path.join(file), (error, page) => {
         if (error) {
           RC(404)
           CThtml
@@ -171,7 +167,7 @@ const init = async () => {
         });
       }
       else {
-        HTMLResponse("./templates/homepage.html")
+        HTMLResponse("templates/homepage.html")
       }
     } catch (e) {
       console.log("Sever returned an error:", e)

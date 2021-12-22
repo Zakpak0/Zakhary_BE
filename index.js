@@ -93,8 +93,8 @@ const init = async () => {
       Function(...Args)
     }
     const HTMLResponse = (file) => {
-      response.writeHead(200, {
-        'Location': `${file}`
+      response.writeHead(301, {
+        Location: `${file}`
       })
       response.end()
     }
@@ -153,7 +153,7 @@ const init = async () => {
         });
       }
       else {
-        HTMLResponse("/homepage.html")
+        HTMLResponse("templates/homepage.html")
       }
     } catch (e) {
       console.log("Sever returned an error:", e)

@@ -94,7 +94,7 @@ const init = async () => {
       Function(...Args)
     }
     const HTMLResponse = (file) => {
-      fs.readFile(path.join(file), (error, page) => {
+      fs.readFile(file, (error, page) => {
         if (error) {
           RC(404)
           CThtml

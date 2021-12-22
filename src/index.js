@@ -1,6 +1,6 @@
 import React from "react";
 import ReactDOM from "react-dom";
-import Homepage from "./templates/homepage.js";
+import Homepage from "./templates/Homepage.js";
 import ReactDOMServer from "react-dom/server.js"
 import http from "http";
 import url, { fileURLToPath } from "url";

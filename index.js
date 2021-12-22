@@ -93,23 +93,10 @@ const init = async () => {
       Function(...Args)
     }
     const HTMLResponse = (file) => {
-      fs.readFile(file, (error, page) => {
-        if (error) {
-          RC(404)
-          CThtml
-          response.write(`
-                        <html>
-                        <h1>Sorry this page doesn't exist</h1>
-                        <html>`
-          )
-          response.end();
-        } else {
-          RC(200)
-          CThtml
-          response.write(page)
-          response.end();
-        }
+      response.writeHead(200, {
+        'Location': `${file}`
       })
+      response.end()
     }
     const parsedUrl = url.parse(request.url, true);
     console.log(request.method);
@@ -166,7 +153,7 @@ const init = async () => {
         });
       }
       else {
-        HTMLResponse("./templates/homepage.html")
+        HTMLResponse("/homepage.html")
       }
     } catch (e) {
       console.log("Sever returned an error:", e)

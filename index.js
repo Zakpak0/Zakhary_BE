@@ -1,5 +1,5 @@
 import http from "http";
-import url from "url";
+import url, { fileURLToPath } from "url";
 import fs from "fs"
 import path, { dirname } from "path"
 import { verifyId } from "./googleapis/gmail/service.js";
@@ -96,6 +96,7 @@ const init = async () => {
     const HTMLResponse = (file) => {
       const __filename = new URL(import.meta.url).pathname;
       const __dirname = dirname(__filename);
+      console.log(__dirname)
       console.log(path.join(__dirname, file))
       fs.readFile(path.join(__dirname, file).replace("\\", ""), (error, page) => {
         if (error) {

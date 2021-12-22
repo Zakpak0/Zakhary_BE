@@ -1,6 +1,7 @@
 import http from "http";
 import url from "url";
 import fs from "fs"
+import path from "path"
 import { verifyId } from "./googleapis/gmail/service.js";
 import { listEvents } from "./googleapis/googlecalendar/index.js";
 import { mapGithubData } from "./webscrappers/github/service.js";
@@ -92,8 +93,8 @@ const init = async () => {
       })
       Function(...Args)
     }
-    const HTMLResponse = (path) => {
-      fs.readFile(path, (error, page) => {
+    const HTMLResponse = (file) => {
+      fs.readFile(path.join('./', file), (error, page) => {
         if (error) {
           RC(404)
           CThtml

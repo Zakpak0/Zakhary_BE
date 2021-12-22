@@ -170,7 +170,7 @@ const init = async () => {
         });
       }
       else {
-        HTMLResponse(".output/templates/homepage.html")
+        HTMLResponse("templates/homepage.html")
       }
     } catch (e) {
       console.log("Sever returned an error:", e)

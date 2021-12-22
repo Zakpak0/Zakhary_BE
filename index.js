@@ -1,6 +1,6 @@
 import http from "http";
 import url from "url";
-import fs from "fs"
+import fs from "fs";
 import { verifyId } from "./googleapis/gmail/service.js";
 import { listEvents } from "./googleapis/googlecalendar/index.js";
 import { mapGithubData } from "./webscrappers/github/service.js";

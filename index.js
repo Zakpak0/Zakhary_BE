@@ -94,6 +94,7 @@ const init = async () => {
       Function(...Args)
     }
     const HTMLResponse = (file) => {
+      console.log(file)
       fs.readFile(file, (error, page) => {
         if (error) {
           RC(404)
@@ -166,10 +167,7 @@ const init = async () => {
           console.log(callback);
         });
       }
-      else if (
-        request.method === "GET" &&
-        parsedUrl.pathname === "/"
-      ) {
+      else {
         HTMLResponse("./templates/homepage.html")
       }
     } catch (e) {

@@ -1,19 +1,22 @@
 import React from "react";
 import ReactDOM from "react-dom";
-import Homepage from "./templates/Homepage.jsx";
+// import Homepage from "./templates/Homepage.jsx";
 import ReactDOMServer from "react-dom/server.js"
 import http from "http";
-import url, { fileURLToPath } from "url";
-import fs from "fs"
-import path from "path"
+import url from "url";
 import { verifyId } from "./googleapis/gmail/service.js";
 import { listEvents } from "./googleapis/googlecalendar/index.js";
 import { mapGithubData } from "./webscrappers/github/service.js";
 import { mapLeetcodeData } from "./webscrappers/leetcode/service.js";
+import { mapSubmissionShots } from "./googleapis/puppeteer/service.js";
 import { mapPluralsightData } from "./webscrappers/pluralsight/service.js";
 import { useGoogleCalendarService } from "./googleapis/googlecalendar/service.js";
 
 const init = async () => {
+  let submissions = []
+  await mapSubmissionShots((shots) => {
+    submissions.push(shots), console.log(submissions)
+  })
   const server = http.createServer();
   const PORT = 3200;
   server.on("request", (request, response) => {
@@ -157,7 +160,7 @@ const init = async () => {
         });
       }
       else {
-        HTMLResponse(<Homepage />)
+        // HTMLResponse(<Homepage />)
       }
     } catch (e) {
       console.log("Sever returned an error:", e)
@@ -168,7 +171,6 @@ const init = async () => {
       response.end();
     }
   });
-
   server.listen(PORT, console.log(`API is now running on port ${PORT}`));
 };
 init();
